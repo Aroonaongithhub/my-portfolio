@@ -1,306 +1,129 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/hooks/use-toast';
-import { Mail, Phone, MapPin, Linkedin, Github, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Github, ArrowRight, MessageSquare } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: ''
-  });
   const sectionRef = useRef<HTMLElement>(null);
-  const { toast } = useToast();
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
+    const el = sectionRef.current;
+    if (!el) return;
+
+    gsap.fromTo(el.querySelectorAll('.contact-animate'),
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
         }
-      },
-      { threshold: 0.1 }
+      }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message Sent Successfully!",
-        description: "Thank you for reaching out. I'll get back to you soon.",
-        duration: 5000,
-      });
-      
-      setFormData({ name: '', email: '', company: '', message: '' });
-      setIsSubmitting(false);
-    }, 1500);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
 
   const contactInfo = [
     {
-      icon: <Mail className="h-5 w-5" />,
+      icon: <Mail className="h-6 w-6" />,
       label: "Email",
       value: "aroonavikram@gmail.com",
-      href: "mailto:aroonavikram@gmail.com"
+      href: "mailto:aroonavikram@gmail.com",
+      description: "Available for technical inquiries and collaborations."
     },
     {
-      icon: <Phone className="h-5 w-5" />,
-      label: "Phone",
-      value: "(+92) 335-2530247",
-      href: "tel:+923352530247"
-    },
-    {
-      icon: <MapPin className="h-5 w-5" />,
-      label: "Location",
-      value: "Karachi, Pakistan",
-      href: null
-    }
-  ];
-
-  const socialLinks = [
-    {
-      icon: <Linkedin className="h-5 w-5" />,
+      icon: <Linkedin className="h-6 w-6" />,
       label: "LinkedIn",
+      value: "aroona-vikram",
       href: "https://linkedin.com/in/aroona-vikram",
-      color: "hover:text-blue-600"
+      description: "Let's connect and share industry insights."
     },
     {
-      icon: <Github className="h-5 w-5" />,
-      label: "GitHub", 
+      icon: <Github className="h-6 w-6" />,
+      label: "GitHub",
+      value: "Aroonaongithhub",
       href: "https://github.com/Aroonaongithhub",
-      color: "hover:text-gray-900 dark:hover:text-gray-100"
+      description: "Explore my open-source contributions and logic."
     }
   ];
 
   return (
-    <section 
-      ref={sectionRef}
-      id="contact" 
-      className="py-20 bg-gradient-to-br from-background to-secondary/50"
-    >
-      <div className="container mx-auto px-4">
-        <div className={`transition-all duration-1000 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-          
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Let's <span className="hero-gradient bg-clip-text text-transparent">Connect</span>
+    <section ref={sectionRef} id="contact" className="py-32 relative bg-secondary/5 overflow-hidden">
+
+      {/* Background Orbs */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-4xl mx-auto">
+
+          {/* Header */}
+          <div className="text-center mb-20 contact-animate">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+              <MessageSquare className="h-4 w-4" />
+              Get in touch
+            </div>
+            <h2 className="text-4xl lg:text-7xl font-extrabold mb-8 tracking-tighter">
+              Ready for the Next <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Chapter?</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Ready to bring your ideas to life? Let's discuss how we can work together to create something amazing.
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              I'm always open to discussing new opportunities, creative ideas or projects to be part of your visions.
             </p>
           </div>
 
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-1 gap-12">
-              
-              {/* Contact Form */}
-              {/* <Card className=" professional-shadow h-[750px]">
-                <CardContent className="p-8 h-full">
-                  <h3 className="text-2xl font-semibold text-foreground mb-6">
-                    Send Me a Message
-                  </h3>
-                  
-                  <form onSubmit={handleSubmit} className="space-y-6 h-full">
-                    <div className="grid sm:grid-col-1 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name" className='pl-1 pb-1'>Name *</Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="smooth-transition focus:ring-primary h-14 w-full"
-                          placeholder="Your full name"
-                        />
+          {/* Contact Grid */}
+          <div className="grid md:grid-cols-1 gap-6 mb-20">
+            {contactInfo.map((info, index) => (
+              <a
+                key={info.label}
+                href={info.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-animate group"
+              >
+                <Card className="bg-card/50 backdrop-blur-xl border-border/50 hover:border-primary/50 transition-all duration-500 overflow-hidden">
+                  <CardContent className="p-8 flex items-center justify-between">
+                    <div className="flex items-center gap-8">
+                      <div className="p-4 rounded-2xl bg-secondary/50 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                        {info.icon}
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email" className='pl-1 pb-1'>Email *</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="smooth-transition focus:ring-primary h-14 w-full"
-                          placeholder="your.email@company.com"
-                        />
+                      <div>
+                        <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-1">{info.label}</h3>
+                        <p className="text-2xl font-bold mb-1">{info.value}</p>
+                        <p className="text-sm text-muted-foreground/80">{info.description}</p>
                       </div>
                     </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="company" className='pl-1 pb-1'>Company/Organization</Label>
-                      <Input
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        className="smooth-transition focus:ring-primary h-14 w-full"
-                        placeholder="Your company or organization"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="message" className='pl-1 pb-1'>Message *</Label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                        rows={8}
-                        className="min-h-[120px] smooth-transition focus:ring-primary"
-                        placeholder="Tell me about your project or opportunity..."
-                      />
-                    </div>
-                    
-                    <Button 
-                      type="submit" 
-                      size="lg"
-                      disabled={isSubmitting}
-                      className="mt-4 w-full accent-gradient text-accent-foreground hover:scale-105 smooth-transition glow-accent"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent mr-2" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="mr-2 h-4 w-4" />
-                          Send Message
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card> */}
-
-              {/* Contact Information */}
-              <div className="space-y-6">
-                
-                {/* Contact Details */}
-                <Card className="glass-card professional-shadow">
-                  <CardContent className="p-8">
-                    <h3 className="text-2xl font-semibold text-foreground mb-6">
-                      Get In Touch
-                    </h3>
-                    
-                    <div className="space-y-4">
-                      {contactInfo.map((info, index) => (
-                        <div 
-                          key={info.label}
-                          className={`flex items-center gap-4 p-4 rounded-lg bg-secondary/30 smooth-transition hover:bg-secondary/50 ${
-                            isVisible ? 'animate-slide-in-left' : 'opacity-0'
-                          }`}
-                          style={{ animationDelay: `${index * 0.2}s` }}
-                        >
-                          <div className="flex-shrink-0 p-3 rounded-lg accent-gradient text-accent-foreground">
-                            {info.icon}
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-foreground mb-1">
-                              {info.label}
-                            </h4>
-                            {info.href ? (
-                              <a 
-                                href={info.href}
-                                className="text-muted-foreground hover:text-primary smooth-transition"
-                              >
-                                {info.value}
-                              </a>
-                            ) : (
-                              <p className="text-muted-foreground">{info.value}</p>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <ArrowRight className="h-6 w-6 text-muted-foreground group-hover:text-primary group-hover:translate-x-2 transition-all duration-500" />
                   </CardContent>
                 </Card>
-
-                {/* Social Links */}
-                <Card className="glass-card professional-shadow">
-                  <CardContent className="p-8">
-                    <h3 className="text-2xl font-semibold text-foreground mb-6">
-                      Follow Me
-                    </h3>
-                    
-                    <div className="flex gap-4">
-                      {socialLinks.map((social, index) => (
-                        <Button
-                          key={social.label}
-                          size="lg"
-                          variant="outline"
-                          className={`flex-1 smooth-transition hover:scale-105 ${social.color} ${
-                            isVisible ? 'animate-fade-in-up' : 'opacity-0'
-                          }`}
-                          style={{ animationDelay: `${index * 0.3}s` }}
-                          onClick={() => window.open(social.href, '_blank')}
-                        >
-                          {social.icon}
-                          <span className="ml-2">{social.label}</span>
-                        </Button>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Availability Status */}
-                <Card className="glass-card professional-shadow">
-                  <CardContent className="p-8">
-                    <div className="flex items-center gap-3 mb-4">
-                      <CheckCircle className="h-5 w-5 text-green-500" />
-                      <h3 className="text-xl font-semibold text-foreground">
-                        Available for Opportunities
-                      </h3>
-                    </div>
-                    <p className="text-muted-foreground mb-4">
-                      I'm currently open to new opportunities and exciting projects. 
-                      Whether you're looking for a full-time developer, freelance work, 
-                      or collaboration, I'd love to hear from you!
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {['Full-time Roles', 'Freelance Projects', 'Collaborations', 'Consulting'].map((type) => (
-                        <span 
-                          key={type}
-                          className="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 text-sm rounded-full"
-                        >
-                          {type}
-                        </span>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
+              </a>
+            ))}
           </div>
+
+          {/* Footer Card */}
+          <Card className="bg-primary contact-animate border-none shadow-glow transition-transform hover:scale-[1.01] duration-500">
+            <CardContent className="p-12 text-center text-primary-foreground">
+              <h3 className="text-3xl font-bold mb-4">Let's build something exceptional.</h3>
+              <p className="text-lg opacity-80 mb-8 max-w-xl mx-auto">
+                Have a project in mind or just want to say hi? My inbox is always open.
+              </p>
+              <Button
+                size="lg"
+                variant="secondary"
+                className="rounded-full px-10 h-14 font-black text-primary hover:scale-105 transition-all shadow-lg"
+                onClick={() => window.location.href = 'mailto:aroonavikram@gmail.com'}
+              >
+                Send a Direct Message
+              </Button>
+            </CardContent>
+          </Card>
+
         </div>
       </div>
     </section>

@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
+
 /* Professional Portfolio Design System - Aroona Vikram
 Colors based on trust (blue), success (gold), and professionalism (grays)
 All colors MUST be HSL.
@@ -9,113 +11,66 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Core Brand Colors */
-    --background: 220 20% 98%;
-    --foreground: 220 15% 15%;
+    /* Modern Premium Palette - Night Owl / Enterprise Dark */
+    --background: 222 47% 4%;
+    --foreground: 213 31% 91%;
 
-    /* Trust & Professionalism (Blue Tones) */
-    --primary: 220 85% 45%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 220 100% 60%;
-    --primary-deep: 220 90% 25%;
+    /* Deep Space Indigo (Primary) */
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 217 91% 70%;
 
-    /* Success & Ambition (Gold/Orange) */
-    --accent: 35 90% 55%;
-    --accent-foreground: 220 15% 15%;
-    --accent-glow: 35 100% 65%;
-    --accent-warm: 25 85% 50%;
+    /* Emerald / Spring Green (Accent) */
+    --accent: 160 84% 39%;
+    --accent-foreground: 210 40% 98%;
+    --accent-glow: 160 84% 60%;
 
-    /* Card & Surface Colors */
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
-    --card-glass: 220 30% 95%;
+    /* Sophisticated Surfaces */
+    --card: 222 47% 6%;
+    --card-foreground: 213 31% 91%;
+    --card-glass: 222 47% 8%;
 
-    /* Secondary & Muted */
-    --secondary: 220 15% 95%;
-    --secondary-foreground: 220 15% 25%;
-    --muted: 220 15% 92%;
-    --muted-foreground: 220 10% 45%;
-
-    /* Interactive Elements */
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 220 85% 45%;
-
-    --radius: 0.75rem;
-
-    /* Gradients & Effects */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
-    --gradient-glass: linear-gradient(135deg, hsl(var(--card-glass) / 0.8), hsl(var(--card) / 0.9));
-
-    /* Shadows & Glows */
-    --shadow-professional: 0 10px 30px -10px hsl(var(--primary) / 0.2);
-    --shadow-accent: 0 8px 25px -8px hsl(var(--accent) / 0.3);
-    --shadow-glass: 0 8px 32px 0 hsl(var(--primary) / 0.12);
-    --glow-primary: 0 0 30px hsl(var(--primary-glow) / 0.4);
-    --glow-accent: 0 0 25px hsl(var(--accent-glow) / 0.5);
-
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 217 33% 12%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --popover: 222 47% 4%;
+    --popover-foreground: 213 31% 91%;
+
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 217 91% 60%;
+
+    --radius: 1rem;
+
+    /* Advanced Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+
+    /* Premium Effects */
+    --shadow-premium: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px -5px hsl(var(--primary) / 0.3);
+    --glow-emerald: 0 0 30px -10px hsl(var(--accent) / 0.4);
+  }
+
+  /* Keeping .dark for compatibility, but defaulting to dark theme */
+  .dark {
+    --background: 222 47% 4%;
+    --foreground: 213 31% 91%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 33% 12%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 160 84% 39%;
     --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 217 91% 60%;
   }
 }
 
@@ -126,6 +81,17 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Outfit', sans-serif;
+    @apply tracking-tight;
   }
 }
 
@@ -182,11 +148,14 @@ All colors MUST be HSL.
 
 /* Keyframe Animations */
 @keyframes float {
-  0%, 100% { 
-    transform: translateY(0px); 
+
+  0%,
+  100% {
+    transform: translateY(0px);
   }
-  50% { 
-    transform: translateY(-10px); 
+
+  50% {
+    transform: translateY(-10px);
   }
 }
 
@@ -195,6 +164,7 @@ All colors MUST be HSL.
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -206,6 +176,7 @@ All colors MUST be HSL.
     opacity: 0;
     transform: translateX(-50px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -213,9 +184,12 @@ All colors MUST be HSL.
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: var(--glow-primary);
   }
+
   50% {
     box-shadow: var(--glow-accent);
   }

@@ -1,154 +1,203 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Code, Lightbulb, Users, Target } from 'lucide-react';
+import { Code, Lightbulb, Users, Target, Brain, Rocket, Globe, Zap } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const skillsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
+    const el = sectionRef.current;
+    if (!el) return;
+
+    // Section Title Animation
+    gsap.fromTo(el.querySelector('.section-header'),
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        scrollTrigger: {
+          trigger: el.querySelector('.section-header'),
+          start: "top 85%",
         }
-      },
-      { threshold: 0.1 }
+      }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    // Traits Cards Animation
+    const traitCards = cardsRef.current?.children;
+    if (traitCards) {
+      gsap.fromTo(traitCards,
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: "top 80%",
+          }
+        }
+      );
     }
 
-    return () => observer.disconnect();
+    // Skills Animation
+    const skillBadges = skillsRef.current?.querySelectorAll('.skill-badge');
+    if (skillBadges) {
+      gsap.fromTo(skillBadges,
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.05,
+          scrollTrigger: {
+            trigger: skillsRef.current,
+            start: "top 85%",
+          }
+        }
+      );
+    }
+
   }, []);
 
   const skills = [
-    'React.js', 'TypeScript', 'Next.js', 'JavaScript', 'Python',
-    'Node.js', 'Express.js', 'MongoDB', 'Firebase', 'Git', 'Github',
-    'Postman','Docker', 'Material UI', 'Tailwind CSS','Shadcn/UI', 'Redux Toolkit','n8n'
+    { name: 'React.js', icon: <Zap className="w-3 h-3" /> },
+    { name: 'Next.js', icon: <Rocket className="w-3 h-3" /> },
+    { name: 'TypeScript', icon: <Code className="w-3 h-3" /> },
+    { name: 'JavaScript', icon: <Code className="w-3 h-3" /> },
+    { name: 'Node.js / Express', icon: <Globe className="w-3 h-3" /> },
+    { name: 'MongoDB', icon: <Zap className="w-3 h-3" /> },
+    { name: 'Tailwind / MUI', icon: <Rocket className="w-3 h-3" /> },
+    { name: 'n8n / Webhooks', icon: <Zap className="w-3 h-3" /> },
+    { name: 'AWS', icon: <Globe className="w-3 h-3" /> },
+    { name: 'Docker / Coolify', icon: <Globe className="w-3 h-3" /> },
+    { name: 'REST APIs', icon: <Code className="w-3 h-3" /> },
+    { name: 'Git', icon: <Code className="w-3 h-3" /> },
   ];
 
   const traits = [
     {
       icon: <Code className="h-6 w-6" />,
       title: "Technical Excellence",
-      description: "Adaptable and detail-oriented, I specialize in building scalable applications, integrating APIs, and automating workflows. My expertise spans Next.js, TypeScript, Node.js, MongoDB, and modern web practices, with a strong focus on clean architecture and performance."
+      description: "Building scalable applications with Next.js, TypeScript, and clean architecture.",
+      color: "bg-blue-500/10 text-blue-500"
     },
     {
       icon: <Lightbulb className="h-6 w-6" />,
       title: "Problem Solving",
-      description: "I thrive on tackling complex challenges—whether it’s debugging tough integration issues, designing real-time interoperability, or optimizing user workflows. My approach blends analytical thinking with creativity, turning roadblocks into seamless solutions."
+      description: "Turning complex challenges into seamless, optimized digital solutions.",
+      color: "bg-amber-500/10 text-amber-500"
     },
     {
       icon: <Users className="h-6 w-6" />,
       title: "Team Collaboration",
-      description: "Collaboration is at the core of my work. From agile sprints to client-facing reviews, I’ve worked closely with designers, backend teams, and stakeholders to align on goals and deliver with impact—always ensuring transparency and shared ownership."
+      description: "Working closely with cross-functional teams to deliver impactful products.",
+      color: "bg-emerald-500/10 text-emerald-500"
     },
     {
       icon: <Target className="h-6 w-6" />,
       title: "Continuous Learning",
-      description: "Technology evolves fast, and so do I. From mastering new tools like n8n and Authentik, to exploring AI-driven solutions, I continuously sharpen my skills to stay ahead and deliver future-ready products."
+      description: "Mastering emerging tools and AI-driven workflows to stay ahead.",
+      color: "bg-purple-500/10 text-purple-500"
     }
   ];
 
   return (
-    <section 
-      ref={sectionRef}
-      id="about" 
-      className="py-20 bg-gradient-to-br from-background to-secondary/50"
-    >
-      <div className="container mx-auto px-4">
-        <div className={`transition-all duration-1000 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-          
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              About <span className="hero-gradient bg-clip-text text-transparent">Me</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Passionate software engineer dedicated to creating innovative solutions and exceptional user experiences
-            </p>
-          </div>
+    <section ref={sectionRef} id="about" className="py-32 relative overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            
-            {/* Personal Story */}
-            <div className="space-y-6">
-              <Card className="glass-card professional-shadow">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-semibold text-foreground mb-6">My Journey</h3>
-                  <div className="space-y-4 text-muted-foreground leading-relaxed">
-                    <p>
-                      I began with a simple curiosity: <i>how can technology solve real problems?</i> That drive led me to Computer Science and, eventually, to Grayhat—where I turned ideas into impact.
-                    </p>
-                    <p>
-                     From building scalable UI components and integrating APIs to designing automation pipelines and enhancing AI-powered workflows, I’ve worked across the full stack to deliver user-focused solutions.
-                    </p>
-                    <p>
-                    One highlight was leading WorkStack, an open-source AI ecosystem that unified tasks, docs, and chat. I drove research, identity management, and real-time interoperability—earning 85% user satisfaction from pilot testing.
-                    </p>
-                    <p>
-                      Today, I bring together frontend expertise, backend expertise, and automation skills to craft digital experiences that are not just functional, but innovative and meaningful.
-                    </p>
+        {/* Section Header */}
+        <div className="section-header text-center mb-20">
+          <h2 className="text-4xl lg:text-6xl font-extrabold mb-6 tracking-tight">
+            The Mind Behind <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">the Code</span>
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            I blend technical precision with creative problem-solving to build applications that don't just work—they inspire.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-8">
+
+          {/* Main Content - Bento Left */}
+          <div className="lg:col-span-8 space-y-8">
+            <Card className="bg-card/50 backdrop-blur-xl border-border/50 shadow-premium overflow-hidden group">
+              <CardContent className="p-10">
+                <div className="flex flex-col md:flex-row gap-10 items-center">
+                  <div className="flex-1 space-y-6">
+                    <h3 className="text-3xl font-bold">My Journey</h3>
+                    <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
+                      <p>
+                        My pursuit of technology started with a simple question: <span className="text-foreground italic">"How can we build better?"</span>
+                        This curiosity led me from computer science fundamentals to building high-impact products across InsurTech and SaaS sectors. I have over 1.5 years of experience delivering production-grade web applications.
+                      </p>
+                      <p>
+                        I specialize in <span className="text-primary font-semibold">Frontend Development</span> with React & Next.js, and <span className="text-accent font-semibold">Workflow Automation</span>.
+                        Recently, my integration of n8n WhatsApp chatbots successfully reduced call center workloads by 40%, demonstrating my drive to solve hard business problems with code.
+                      </p>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="w-full md:w-64 h-64 rounded-3xl overflow-hidden shadow-premium group-hover:scale-105 transition-transform duration-500">
+                    <img src="/profile-avatar.jpeg" alt="Aroona" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-              {/* Skills */}
-              <Card className="glass-card professional-shadow">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-semibold text-foreground mb-6">Technical Skills</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {skills.map((skill, index) => (
-                      <Badge 
-                        key={skill} 
+            {/* Skills Bento */}
+            <div ref={skillsRef}>
+              <Card className="bg-card/50 backdrop-blur-xl border-border/50 shadow-premium">
+                <CardContent className="p-10">
+                  <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+                    <Zap className="text-accent" />
+                    Stack & Arsenal
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {skills.map((skill) => (
+                      <Badge
+                        key={skill.name}
                         variant="secondary"
-                        className={`smooth-transition hover:accent-gradient hover:text-accent-foreground ${
-                          isVisible ? 'animate-fade-in-up' : ''
-                        }`}
-                        style={{ animationDelay: `${index * 0.1}s` }}
+                        className="skill-badge px-4 py-2 text-sm font-medium bg-secondary/50 border-border/50 hover:bg-primary hover:text-primary-foreground transition-all duration-300 gap-2 rounded-lg cursor-default"
                       >
-                        {skill}
+                        {skill.icon}
+                        {skill.name}
                       </Badge>
                     ))}
                   </div>
                 </CardContent>
               </Card>
             </div>
+          </div>
 
-            {/* Key Traits */}
-            <div className="space-y-6">
-              {traits.map((trait, index) => (
-                <Card 
-                  key={trait.title} 
-                  className={`glass-card professional-shadow smooth-transition hover:scale-105 ${
-                    isVisible ? 'animate-slide-in-left' : 'opacity-0'
-                  }`}
-                  style={{ animationDelay: `${index * 0.2}s` }}
-                >
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 p-3 rounded-lg accent-gradient text-accent-foreground">
-                        {trait.icon}
-                      </div>
-                      <div>
-                        <h4 className="text-xl font-semibold text-foreground mb-2">
-                          {trait.title}
-                        </h4>
-                        <p className="text-muted-foreground">
-                          {trait.description}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+          {/* Sidebar - Bento Right */}
+          <div ref={cardsRef} className="lg:col-span-4 space-y-8">
+            {traits.map((trait) => (
+              <Card key={trait.title} className="bg-card/50 backdrop-blur-xl border-border/50 shadow-premium group hover:border-primary/50 transition-colors duration-300">
+                <CardContent className="p-8 space-y-4">
+                  <div className={`p-4 rounded-2xl w-fit ${trait.color}`}>
+                    {trait.icon}
+                  </div>
+                  <h4 className="text-xl font-bold">{trait.title}</h4>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {trait.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Background elements */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-accent/5 blur-[100px] rounded-full pointer-events-none" />
     </section>
   );
 };

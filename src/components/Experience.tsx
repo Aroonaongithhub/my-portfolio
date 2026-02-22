@@ -1,30 +1,71 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin, Building, ExternalLink } from 'lucide-react';
+import { Calendar, MapPin, Building, ExternalLink, Briefcase } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
+    const el = sectionRef.current;
+    if (!el) return;
+
+    // Timeline line animation
+    gsap.fromTo(lineRef.current,
+      { height: 0 },
+      {
+        height: '100%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: cardsRef.current,
+          start: "top 70%",
+          end: "bottom 80%",
+          scrub: 1,
         }
-      },
-      { threshold: 0.1 }
+      }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    // Cards entrance animation
+    const cards = cardsRef.current?.querySelectorAll('.experience-card');
+    if (cards) {
+      cards.forEach((card, i) => {
+        gsap.fromTo(card,
+          { x: i % 2 === 0 ? -50 : 50, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+            }
+          }
+        );
+      });
     }
 
-    return () => observer.disconnect();
   }, []);
 
   const experiences = [
+    {
+      title: "Software Engineer",
+      company: "Takaful Bazaar",
+      location: "Karachi, Pakistan",
+      period: "Sep 2025 – Present",
+      type: "Full-time",
+      achievements: [
+        "Developing and maintaining features of Takaful Bazaar's core Customer and Admin products using React and TypeScript, supporting thousands of insurance discovery and quotation flows.",
+        "Designed and delivered a full WhatsApp chatbot automation using n8n to educate customers, filter low-intent users, and route purchase-ready leads, successfully reducing call center workload by 40%.",
+        "Collaborating closely with insurance business professionals to translate complex industry requirements into intuitive digital workflows.",
+      ],
+      technologies: ["React", "TypeScript", "n8n", "REST APIs"]
+    },
     {
       title: "Associate Software Engineer",
       company: "Grayhat",
@@ -32,11 +73,11 @@ const Experience = () => {
       period: "Sep 2024 – Jul 2025",
       type: "Part-time",
       achievements: [
-        "Streamlined camp enrollment by building core frontend features (onboarding, camp creation, parent registration) across POC → MVP1 → MVP2 phases.",
-        "Developed reusable UI components, integrated RESTful APIs (RTK Query), and collaborated with backend teams to resolve API/debugging issues.",
-        "Tested, optimized, and delivered high-performance applications while actively contributing in agile sprints and client feedback sessions.",
+        "Streamlined camp enrollment by building core frontend features across POC → MVP1 → MVP2 phases.",
+        "Developed reusable UI components and integrated RESTful APIs using RTK Query.",
+        "Collaborated in agile sprints to deliver high-performance, scalable applications.",
       ],
-      technologies: ["Next.js", "TypeScript", "RTK Query", "Redux Toolkit", "Material UI", "Firebase", "Shadcn/UI", "Tailwind CSS", "Swagger/OpenAPI"]
+      technologies: ["Next.js", "TypeScript", "RTK Query", "Redux", "Tailwind CSS", "Shadcn/UI"]
     },
     {
       title: "Web Development Intern",
@@ -45,155 +86,117 @@ const Experience = () => {
       period: "Jul 2024 – Aug 2024",
       type: "Internship",
       achievements: [
-        "Built dynamic UI components (BottomSheet, Accordion) to enhance the internal React UI library.",
-        "Developed a Tech Radar page to visualize tooling adoption, improving transparency for stakeholders.",
+        "Built dynamic UI components and a Tech Radar visualization for internal tooling transparency.",
         "Delivered optimized UI implementations and routing across multiple client-facing sprints.",
-        "First Live Deployment: Delivered a Next.js website with 3D models (Three.js), animations (GSAP), and smooth scrolling (Locomotive Scroll). 👉 https://home.grayhat.studio/ "
+        "First Live Deployment: Delivered a Next.js website with 3D models and smooth scrolling.",
       ],
-      technologies: ["Next.js", "Material Web Components React (Internal UI Library)", "TypeScript", "Three.js", "GSAP", "Locomotive Scroll"]
+      technologies: ["Next.js", "TypeScript", "Three.js", "GSAP", "Locomotive Scroll"]
     }
   ];
 
   return (
-    <section
-      ref={sectionRef}
-      id="experience"
-      className="py-20 bg-gradient-to-br from-secondary/50 to-background"
-    >
-      <div className="container mx-auto px-4">
-        <div className={`transition-all duration-1000 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+    <section ref={sectionRef} id="experience" className="py-32 relative bg-secondary/5">
+      <div className="container mx-auto px-6">
 
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Professional <span className="hero-gradient bg-clip-text text-transparent">Experience</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Building innovative solutions and delivering exceptional results in dynamic, client-focused environments
-            </p>
+        {/* Section Header */}
+        <div className="text-center mb-24">
+          <h2 className="text-4xl lg:text-6xl font-extrabold mb-6 tracking-tight">
+            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Milestones</span>
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            My career journey has been defined by a constant drive for technical excellence and impactful delivery.
+          </p>
+        </div>
+
+        {/* Timeline Container */}
+        <div className="relative max-w-5xl mx-auto">
+
+          {/* Vertical Line */}
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-border transform -translate-x-1/2 hidden md:block">
+            <div ref={lineRef} className="absolute top-0 left-0 w-full bg-gradient-to-b from-primary to-accent" />
           </div>
 
-          {/* Timeline */}
-          <div className="relative max-w-4xl mx-auto">
-            {/* Timeline Line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 hero-gradient rounded-full hidden md:block" />
+          <div ref={cardsRef} className="space-y-20">
+            {experiences.map((exp, index) => (
+              <div key={index} className={`relative flex items-center justify-between md:justify-normal group ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
 
-            <div className="space-y-12">
-              {experiences.map((exp, index) => (
-                <div
-                  key={index}
-                  className={`relative transition-all duration-700 ${isVisible ? 'animate-slide-in-left' : 'opacity-0'
-                    }`}
-                  style={{ animationDelay: `${index * 0.3}s` }}
-                >
-                  {/* Timeline Dot */}
-                  <div className="absolute left-6 w-4 h-4 accent-gradient rounded-full glow-accent hidden md:block" />
+                {/* Timeline Dot */}
+                <div className="absolute left-8 md:left-1/2 w-4 h-4 rounded-full bg-background border-4 border-primary transform -translate-x-1/2 z-10 hidden md:block" />
 
-                  {/* Experience Card */}
-                  <Card className="glass-card professional-shadow ml-0 md:ml-20 smooth-transition hover:scale-[1.02]">
+                {/* Card Content */}
+                <div className="w-full md:w-[45%] experience-card">
+                  <Card className="bg-card/50 backdrop-blur-xl border-border/50 shadow-premium overflow-hidden hover:border-primary/30 transition-all duration-500">
                     <CardContent className="p-8">
+                      <div className="flex flex-col gap-6">
 
-                      {/* Header */}
-                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
-                        <div>
-                          <h3 className="text-2xl font-bold text-foreground mb-2">
-                            {exp.title}
-                          </h3>
-                          <div className="flex items-center gap-2 text-muted-foreground mb-1">
-                            <Building className="h-4 w-4" />
-                            <span className="font-medium">{exp.company}</span>
-                          </div>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-1">
-                              <Calendar className="h-4 w-4" />
-                              {exp.period}
+                        {/* Header */}
+                        <div className="flex justify-between items-start gap-4">
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2 text-primary font-bold tracking-tight">
+                              <Briefcase className="h-4 w-4" />
+                              {exp.title}
                             </div>
-                            <div className="flex items-center gap-1">
-                              <MapPin className="h-4 w-4" />
-                              {exp.location}
-                            </div>
-                          </div>
-                        </div>
-                        <Badge
-                          variant="secondary"
-                          className="accent-gradient text-accent-foreground w-fit"
-                        >
-                          {exp.type}
-                        </Badge>
-                      </div>
-
-                      {/* Achievements */}
-                      <div className="mb-6">
-                        <h4 className="text-lg font-semibold text-foreground mb-3">
-                          Key Achievements
-                        </h4>
-                        <ul className="space-y-2">
-                          {exp.achievements.map((achievement, achievementIndex) => (
-                            <li
-                              key={achievementIndex}
-                              className="flex items-start gap-3 text-muted-foreground"
-                            >
-                              <div className="w-2 h-2 rounded-full accent-gradient mt-2 flex-shrink-0" />
-                              <span>{achievement} 
-                                {/* {achievement.includes('https://home.grayhat.studio/') && (
-                                  <a
-                                    href="https://home.grayhat.studio/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 ml-2 px-3 py-1 rounded-md bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
-                                  >
-                                    <span>Visit Site</span>
-                                    <ExternalLink className="h-4 w-4" />
-                                  </a>
-                                )} */}
+                            <h3 className="text-2xl font-bold">{exp.company}</h3>
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="h-4 w-4" />
+                                {exp.period}
                               </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                              <span className="flex items-center gap-1">
+                                <MapPin className="h-4 w-4" />
+                                {exp.location}
+                              </span>
+                            </div>
+                          </div>
+                          <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20 rounded-full px-4 py-1">
+                            {exp.type}
+                          </Badge>
+                        </div>
 
-                      {/* Technologies */}
-                      <div>
-                        <h4 className="text-lg font-semibold text-foreground mb-3">
-                          Technologies Used
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {exp.technologies.map((tech, techIndex) => (
-                            <Badge
-                              key={tech}
-                              variant="outline"
-                              className={`smooth-transition hover:hero-gradient hover:text-primary-foreground ${isVisible ? 'animate-fade-in-up' : ''
-                                }`}
-                              style={{ animationDelay: `${(index * 0.3) + (techIndex * 0.1)}s` }}
-                            >
+                        {/* Achievements */}
+                        <div className="space-y-4">
+                          <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Key Contributions</h4>
+                          <ul className="space-y-3">
+                            {exp.achievements.map((item, i) => (
+                              <li key={i} className="flex gap-3 text-muted-foreground leading-relaxed">
+                                <div className="mt-2 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Tech Stack */}
+                        <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
+                          {exp.technologies.map((tech) => (
+                            <Badge key={tech} variant="secondary" className="bg-secondary/30 text-xs font-semibold rounded-md">
                               {tech}
                             </Badge>
                           ))}
                         </div>
+
                       </div>
                     </CardContent>
                   </Card>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Call to Action */}
-          <div className="text-center mt-16">
-            <div className="inline-flex items-center gap-2 text-muted-foreground">
-              <ExternalLink className="h-4 w-4" />
-              <span>Want to see more? Check out my</span>
-              <a
-                href="https://linkedin.com/in/aroona-vikram"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-accent smooth-transition font-medium"
-              >
-                LinkedIn profile
-              </a>
-            </div>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* Footer Link */}
+        <div className="text-center mt-24">
+          <a
+            href="https://linkedin.com/in/aroona-vikram"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors font-semibold group"
+          >
+            Detailed timeline on <span className="underline decoration-primary/30 group-hover:decoration-primary">LinkedIn</span>
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
+
       </div>
     </section>
   );

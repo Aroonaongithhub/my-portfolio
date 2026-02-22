@@ -1,239 +1,198 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Github, ExternalLink, Brain, Wrench, Users, Briefcase, Layout } from 'lucide-react';
+import { Github, ExternalLink, Brain, Sparkles, Layers, ArrowUpRight } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
+    const el = sectionRef.current;
+    if (!el) return;
+
+    // Title Animation
+    gsap.fromTo(el.querySelector('.projects-header'),
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        scrollTrigger: {
+          trigger: el.querySelector('.projects-header'),
+          start: "top 85%",
         }
-      },
-      { threshold: 0.1 }
+      }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    // Project Cards Animation
+    const cards = containerRef.current?.querySelectorAll('.project-card');
+    if (cards) {
+      gsap.fromTo(cards,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.3,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 75%",
+          }
+        }
+      );
     }
 
-    return () => observer.disconnect();
   }, []);
 
   const projects = [
     {
-      title: "WorkStack - AI Powered Open Source Work Tooling Ecosystem",
-      description: "A signature project that integrates task management, documentation, and communication tools to streamline team workflows. Developed in a team of 3, where I contributed as Researcher, Developer, and Project Lead, and validated in collaboration with Grayhat.",
+      title: "WorkStack",
+      subtitle: "AI-Powered Work Ecosystem",
+      description: "A signature project that integrates task management, documentation, and communication tools to streamline team workflows. Developed as Project Lead, achieving 85% user satisfaction.",
+      image: "/workstack.png",
       icon: <Brain className="h-6 w-6" />,
-      achievements: [
-        "Built an open-source ecosystem integrating task management (Plane), documentation (Outline), and chat (Discord) for seamless team workflows.",
-        "Led research and evaluation of identity management solutions; recommended and advocated Authentik (open-source IdP) for centralized RBAC → strengthened security and simplified user management.",
-        "Developed real-time interoperability across multiple tools via REST APIs and webhooks → enabled seamless cross-platform coordination.",
-        "Enhanced two AI agents using the MCP framework to support contextual task and document queries → improved efficiency in retrieving relevant information.",
-        "Directed deployment of live PoC and conducted UAT with 5 pilot users → achieved 85% user satisfaction and validated end-to-end functionality.",
+      stats: [
+        { label: "Role", value: "Lead Eng" },
+        { label: "Impact", value: "85% SAT" },
+        { label: "Status", value: "v2.0" }
       ],
-      technologies: ["Node.js", "REST APIs", "Discord API", "Authentik", "Model Context Protocol", "TypeScript", "JavaScript", "Redis", "Docker"],
-      phases: ["Superficial Syncing", "Identity Management", "AI Integration"],
-      status: "2024-2025",
+      achievements: [
+        "Built an open-source ecosystem integrating Plane, Outline, and Discord.",
+        "Implemented Authentik for enterprise-grade identity management.",
+        "Developed custom MCP agents for contextual AI queries.",
+      ],
+      technologies: ["Node.js", "Redis", "Docker", "Authentik", "MCP"],
       githubUrl: "#",
       liveUrl: "https://www.linkedin.com/posts/aroona-vikram_workstack-fyp-opensource-activity-7350147395751440384-rCc1?utm_source=share&utm_medium=member_desktop&rcm=ACoAADszxTsBjOSeDRvBxB63s6VfP0hQDwUqlVo"
-    },
-    {
-      title: "Job Seeking Platform",
-      description: "Developed a full-stack MERN application that connects job seekers and job posters, featuring secure authentication, role-based dashboards, and responsive design.",
-      icon: <Briefcase className="h-6 w-6" />, // you can change the icon if needed
-      achievements: [
-        "Implemented job seeker dashboard for browsing, filtering, and applying to jobs",
-        "Built job poster dashboard for creating, editing, and managing job postings",
-        "Integrated JWT-based authentication and role-based authorization",
-        "Designed RESTful APIs for secure and scalable backend functionality",
-        "Developed a fully responsive UI for seamless experience across devices"
-      ],
-      technologies: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT", "REST API", "Tailwind CSS"],
-      status: "2024",
-      githubUrl: "https://github.com/Aroonaongithhub/Job-Seeking-MERN",
-      liveUrl: "https://www.linkedin.com/posts/aroona-vikram_mernstack-jobposting-jobseeking-activity-7202303055759888384-ePoG?utm_source=share&utm_medium=member_desktop&rcm=ACoAADszxTsBjOSeDRvBxB63s6VfP0hQDwUqlVo" // or deploy link if you host it
-    },
-    {
-      title: "Cuberto Clone Website",
-      description: "Created a responsive clone of Cuberto’s website to master modern UI/UX animations and frontend development.",
-      icon: <Layout className="h-6 w-6" />,
-      achievements: [
-        "Recreated Cuberto’s sleek, agency-style animations and interactions using vanilla JavaScript",
-        "Implemented smooth CSS transitions, hover effects, and responsive layouts across devices",
-        "Applied semantic HTML structure and modular CSS for maintainable, accessible code",
-        "Practiced precise visual reproduction and attention to design detail"
-      ],
-      technologies: ["HTML", "CSS", "JavaScript"],
-      status: "2024",
-      githubUrl: "https://github.com/Aroonaongithhub/Cuberto-clone",
-      liveUrl: "https://aroonaongithhub.github.io/Cuberto-clone/"
     }
   ];
 
   return (
-    <section
-      ref={sectionRef}
-      id="projects"
-      className="py-20 bg-gradient-to-br from-background to-secondary/30"
-    >
-      <div className="container mx-auto px-4">
-        <div className={`transition-all duration-1000 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+    <section ref={sectionRef} id="projects" className="py-32 relative overflow-hidden bg-background">
+      <div className="container mx-auto px-6 relative z-10">
 
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Featured <span className="hero-gradient bg-clip-text text-transparent">Projects</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Showcasing innovative solutions and technical expertise through real-world applications
-            </p>
+        {/* Section Header */}
+        <div className="projects-header text-center mb-24">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+            <Layers className="h-4 w-4" />
+            Selected Works
           </div>
+          <h2 className="text-4xl lg:text-7xl font-extrabold mb-8 tracking-tighter">
+            Where Craft Meets <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Impact</span>
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            A collection of engineering projects focused on scalability, automation, and user-centric design.
+          </p>
+        </div>
 
-          {/* Projects Grid */}
-          <div className="grid gap-8 max-w-6xl mx-auto">
-            {projects.map((project, index) => (
-              <Card
-                key={project.title}
-                className={`glass-card professional-shadow smooth-transition hover:scale-[1.02] ${isVisible ? 'animate-fade-in-up' : 'opacity-0'
-                  }`}
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <CardContent className="p-8">
-                  <div className="grid lg:grid-cols-3 gap-8">
+        {/* Projects Grid */}
+        <div ref={containerRef} className="max-w-6xl mx-auto space-y-32">
+          {projects.map((project, index) => (
+            <div key={project.title} className="project-card group">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
 
-                    {/* Project Info */}
-                    <div className="lg:col-span-2 space-y-6">
-
-                      {/* Header */}
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 p-3 rounded-lg accent-gradient text-accent-foreground">
-                          {project.icon}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                            <h3 className="text-2xl font-bold text-foreground">
-                              {project.title}
-                            </h3>
-                            <Badge variant="secondary" className="w-fit">
-                              {project.status}
-                            </Badge>
-                          </div>
-                          <p className="text-muted-foreground leading-relaxed">
-                            {project.description}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Key Achievements */}
-                      <div>
-                        <h4 className="text-lg font-semibold text-foreground mb-3">
-                          Key Achievements
-                        </h4>
-                        <ul className="space-y-2">
-                          {project.achievements.map((achievement, achievementIndex) => (
-                            <li
-                              key={achievementIndex}
-                              className="flex items-start gap-3 text-muted-foreground"
-                            >
-                              <div className="w-2 h-2 rounded-full accent-gradient mt-2 flex-shrink-0" />
-                              <span>{achievement}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Project Phases (if applicable) */}
-                      {project.phases && (
-                        <div>
-                          <h4 className="text-lg font-semibold text-foreground mb-3">
-                            Project Phases
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {project.phases.map((phase, phaseIndex) => (
-                              <Badge
-                                key={phase}
-                                variant="outline"
-                                className="hero-gradient text-primary-foreground"
-                              >
-                                {phaseIndex + 1}. {phase}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                {/* Project Brief */}
+                <div className="space-y-8 order-2 lg:order-1">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 text-accent font-bold uppercase tracking-widest text-sm">
+                      <Sparkles className="h-4 w-4" />
+                      {project.subtitle}
                     </div>
+                    <h3 className="text-4xl lg:text-5xl font-black group-hover:text-primary transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      {project.description}
+                    </p>
+                  </div>
 
-                    {/* Tech Stack & Actions */}
-                    <div className="space-y-6">
-
-                      {/* Technologies */}
-                      <div>
-                        <h4 className="text-lg font-semibold text-foreground mb-3">
-                          Tech Stack
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.map((tech, techIndex) => (
-                            <Badge
-                              key={tech}
-                              variant="secondary"
-                              className={`smooth-transition hover:accent-gradient hover:text-accent-foreground ${isVisible ? 'animate-fade-in-up' : ''
-                                }`}
-                              style={{ animationDelay: `${(index * 0.2) + (techIndex * 0.1)}s` }}
-                            >
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-3 gap-6 py-8 border-y border-border/50">
+                    {project.stats.map(stat => (
+                      <div key={stat.label}>
+                        <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1">{stat.label}</div>
+                        <div className="text-lg font-bold text-foreground">{stat.value}</div>
                       </div>
+                    ))}
+                  </div>
 
-                      {/* Action Buttons */}
-                      <div className="space-y-3">
-                        {project.githubUrl !== "#" && (
-                          <Button
-                            className="w-full hero-gradient text-primary-foreground hover:scale-105 smooth-transition"
-                            onClick={() => window.open(project.githubUrl, '_blank')}
-                          >
-                            <Github className="mr-2 h-4 w-4" />
-                            View on GitHub
-                          </Button>
-                        )}
-                        {project.liveUrl !== "#" && (
-                          <Button
-                            variant="outline"
-                            className="w-full smooth-transition hover:accent-gradient hover:text-accent-foreground"
-                            onClick={() => window.open(project.liveUrl, '_blank')}
-                          >
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            Project Demo
-                          </Button>
-                        )}
-                      </div>
+                  {/* Highlights */}
+                  <ul className="space-y-4">
+                    {project.achievements.map((item, i) => (
+                      <li key={i} className="flex gap-4 text-muted-foreground">
+                        <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Actions */}
+                  <div className="flex flex-wrap gap-4 pt-4">
+                    <Button
+                      size="lg"
+                      className="bg-primary text-primary-foreground rounded-full px-8 h-14 font-bold shadow-glow hover:scale-105 transition-all"
+                      onClick={() => window.open(project.liveUrl, '_blank')}
+                    >
+                      Case Study
+                      <ArrowUpRight className="ml-2 h-5 w-5" />
+                    </Button>
+                    {/* <Button
+                      size="lg"
+                      variant="outline"
+                      className="rounded-full px-8 h-14 font-bold border-border/50 hover:bg-secondary/50 transition-all"
+                      onClick={() => window.open(project.githubUrl, '_blank')}
+                    >
+                      <Github className="mr-2 h-5 w-5" />
+                      Source
+                    </Button> */}
+                  </div>
+                </div>
+
+                {/* Project Visual */}
+                <div className="order-1 lg:order-2">
+                  <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-premium group-hover:shadow-glow transition-all duration-700">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover border border-white transition-transform duration-1000 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                    {/* Floating Badges */}
+                    <div className="absolute bottom-6 left-6 flex flex-wrap gap-2">
+                      {project.technologies.slice(0, 3).map(tech => (
+                        <Badge key={tech} className="bg-background/80 backdrop-blur-md text-foreground border-border/50 px-4 py-1.5 rounded-full text-xs font-bold">
+                          {tech}
+                        </Badge>
+                      ))}
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                </div>
 
-          {/* Call to Action */}
-          <div className="text-center mt-16">
-            <Button
-              size="lg"
-              variant="outline"
-              className="smooth-transition hover:hero-gradient hover:text-primary-foreground"
-              onClick={() => window.open('https://github.com/Aroonaongithhub', '_blank')}
-            >
-              <Github className="mr-2 h-5 w-5" />
-              View All Projects on GitHub
-            </Button>
-          </div>
+              </div>
+            </div>
+          ))}
         </div>
+
+        {/* Section Footer */}
+        <div className="mt-32 text-center">
+          <Button
+            size="lg"
+            variant="ghost"
+            className="text-muted-foreground hover:text-primary font-bold group"
+            onClick={() => window.open('https://github.com/Aroonaongithhub', '_blank')}
+          >
+            Explore more on GitHub
+            <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </Button>
+        </div>
+
       </div>
     </section>
   );

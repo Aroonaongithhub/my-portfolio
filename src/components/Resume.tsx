@@ -27,63 +27,63 @@ const Resume = () => {
   const highlights = [
     {
       icon: <Award className="h-5 w-5" />,
-      title: "WorkStack – AI-Powered Productivity Tool",
-      description: "Built an AI-powered, open-source productivity ecosystem for Grayhat, solving internal workflow challenges with real-time interoperability and identity management; validated with 85% UAT satisfaction."
-    },
-    {
-      icon: <Star className="h-5 w-5" />,
-      title: "3.4/4.0 CGPA",
-      description: "Strong academic performance in Computer Science"
+      title: "Impactful Workflow Automation",
+      description: "Designed a WhatsApp chatbot using n8n for Takaful Bazaar that educated customers, filtered low-intent users, and reduced call center workloads by 40%."
     },
     {
       icon: <FileText className="h-5 w-5" />,
-      title: "Full-Stack Experience",
-      description: "Next.js, TypeScript, Node.js, and modern web technologies"
+      title: "Frontend Engineering",
+      description: "Over 1.5 years of experience building revenue-driving features in InsurTech and SaaS using React, Next.js, and TypeScript."
+    },
+    {
+      icon: <Star className="h-5 w-5" />,
+      title: "Academic Excellence",
+      description: "Graduated with a 3.4/4.0 CGPA in Computer Science from MAJU, with a strong foundation in Generative AI and Cloud Computing."
     }
   ];
 
   return (
-    <section 
+    <section
       ref={sectionRef}
-      id="resume" 
+      id="resume"
       className="py-20 bg-gradient-to-br from-secondary/30 to-background"
     >
       <div className="container mx-auto px-4">
         <div className={`transition-all duration-1000 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-          
+
           {/* Section Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
               My <span className="hero-gradient bg-clip-text text-transparent">Resume</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-primary-foreground max-w-3xl mx-auto">
               Download my detailed resume or preview it directly below
             </p>
           </div>
 
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-3 gap-8">
-              
+
               {/* Resume Preview & Actions */}
               <div className="lg:col-span-2">
                 <Card className="glass-card professional-shadow">
                   <CardContent className="p-8">
-                    
+
                     {/* Actions */}
                     <div className="flex flex-col sm:flex-row gap-4 mb-8">
                       {/* <Button 
                         size="lg"
-                        className="accent-gradient text-accent-foreground hover:scale-105 smooth-transition glow-accent"
+                        className="accent-gradient text-accent-foreground hover:scale-105 smooth-transition glow-accent cursor-target"
                         onClick={() => window.open('https://flowcv.com/resume/v7jbdoh45i', '_blank')}
                       >
                         <Download className="mr-2 h-5 w-5" />
                         Download Resume
                       </Button> */}
-                      
-                      <Button 
+
+                      <Button
                         size="lg"
                         variant="outline"
-                        className="accent-gradient text-accent-foreground hover:scale-105 smooth-transition glow-accent"
+                        className="accent-gradient text-accent-foreground hover:scale-105 smooth-transition glow-accent cursor-target"
                         onClick={() => window.open('https://flowcv.com/resume/v7jbdoh45i', '_blank')}
                       >
                         <Eye className="mr-2 h-5 w-5" />
@@ -94,7 +94,7 @@ const Resume = () => {
                     {/* Embedded Preview */}
                     <div className="relative">
                       <h3 className="text-2xl font-semibold text-foreground mb-6">Resume Preview</h3>
-                      
+
                       {/* Responsive Iframe Container */}
                       <div className="relative w-full bg-secondary/20 rounded-lg overflow-hidden professional-shadow">
                         <div className="aspect-[8.5/11] w-full">
@@ -105,13 +105,13 @@ const Resume = () => {
                             loading="lazy"
                           />
                         </div>
-                        
+
                         {/* Overlay for Mobile */}
                         <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent pointer-events-none lg:hidden" />
-                        
+
                         {/* Mobile Action */}
                         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 lg:hidden">
-                          <Button 
+                          <Button
                             className="accent-gradient text-accent-foreground"
                             onClick={() => window.open('https://flowcv.com/resume/v7jbdoh45i', '_blank')}
                           >
@@ -126,20 +126,19 @@ const Resume = () => {
 
               {/* Resume Highlights */}
               <div className="space-y-6">
-                <Card className="glass-card professional-shadow">
+                <Card className="bg-primary-foreground/10 glass-card professional-shadow">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
                       <FileText className="h-5 w-5 text-accent" />
                       Resume Highlights
                     </h3>
-                    
+
                     <div className="space-y-4">
                       {highlights.map((highlight, index) => (
-                        <div 
+                        <div
                           key={highlight.title}
-                          className={`flex items-start gap-3 p-3 rounded-lg bg-secondary/30 smooth-transition hover:bg-secondary/50 ${
-                            isVisible ? 'animate-slide-in-left' : 'opacity-0'
-                          }`}
+                          className={`flex items-start gap-3 p-3 rounded-lg bg-secondary/30 smooth-transition hover:bg-secondary/50 ${isVisible ? 'animate-slide-in-left' : 'opacity-0'
+                            }`}
                           style={{ animationDelay: `${index * 0.2}s` }}
                         >
                           <div className="flex-shrink-0 p-2 rounded-lg accent-gradient text-accent-foreground">
@@ -149,7 +148,7 @@ const Resume = () => {
                             <h4 className="font-semibold text-foreground text-sm mb-1">
                               {highlight.title}
                             </h4>
-                            <p className="text-muted-foreground text-sm">
+                            <p className="text-primary-foreground text-sm">
                               {highlight.description}
                             </p>
                           </div>
@@ -160,7 +159,7 @@ const Resume = () => {
                 </Card>
 
                 {/* Quick Contact */}
-                <Card className="glass-card professional-shadow">
+                <Card className="bg-primary-foreground/10 glass-card professional-shadow">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-semibold text-foreground mb-4">
                       Quick Contact
@@ -169,7 +168,7 @@ const Resume = () => {
                       <div>
                         <span className="text-muted-foreground">Email:</span>
                         <br />
-                        <a 
+                        <a
                           href="mailto:aroonavikram@gmail.com"
                           className="text-primary hover:text-accent smooth-transition"
                         >
@@ -179,7 +178,7 @@ const Resume = () => {
                       <div>
                         <span className="text-muted-foreground">Phone:</span>
                         <br />
-                        <a 
+                        <a
                           href="tel:+923352530247"
                           className="text-primary hover:text-accent smooth-transition"
                         >
