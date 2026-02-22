@@ -64,21 +64,21 @@ const Contact = () => {
         <div className="max-w-4xl mx-auto">
 
           {/* Header */}
-          <div className="text-center mb-20 contact-animate">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+          <div className="text-center mb-16 sm:mb-20 contact-animate px-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">
               <MessageSquare className="h-4 w-4" />
               Get in touch
             </div>
-            <h2 className="text-4xl lg:text-7xl font-extrabold mb-8 tracking-tighter">
+            <h2 className="text-3xl sm:text-5xl lg:text-7xl font-extrabold mb-6 sm:mb-8 tracking-tighter">
               Ready for the Next <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Chapter?</span>
             </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className="text-base sm:text-xl text-muted-foreground leading-relaxed">
               I'm always open to discussing new opportunities, creative ideas or projects to be part of your visions.
             </p>
           </div>
 
           {/* Contact Grid */}
-          <div className="grid md:grid-cols-1 gap-6 mb-20">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-16 sm:mb-20 px-4">
             {contactInfo.map((info, index) => (
               <a
                 key={info.label}
@@ -88,18 +88,18 @@ const Contact = () => {
                 className="contact-animate group"
               >
                 <Card className="bg-card/50 backdrop-blur-xl border-border/50 hover:border-primary/50 transition-all duration-500 overflow-hidden">
-                  <CardContent className="p-8 flex items-center justify-between">
-                    <div className="flex items-center gap-8">
-                      <div className="p-4 rounded-2xl bg-secondary/50 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                  <CardContent className="p-4 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 w-full sm:w-auto">
+                      <div className="p-3 sm:p-4 rounded-2xl bg-secondary/50 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 flex-shrink-0">
                         {info.icon}
                       </div>
-                      <div>
-                        <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-1">{info.label}</h3>
-                        <p className="text-2xl font-bold mb-1">{info.value}</p>
-                        <p className="text-sm text-muted-foreground/80">{info.description}</p>
+                      <div className="min-w-0">
+                        <h3 className="text-xs sm:text-sm font-bold text-muted-foreground uppercase tracking-widest mb-1">{info.label}</h3>
+                        <p className="text-lg sm:text-2xl font-bold mb-1 truncate sm:truncate-none">{info.value}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground/80">{info.description}</p>
                       </div>
                     </div>
-                    <ArrowRight className="h-6 w-6 text-muted-foreground group-hover:text-primary group-hover:translate-x-2 transition-all duration-500" />
+                    <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground group-hover:text-primary group-hover:translate-x-2 transition-all duration-500 flex-shrink-0 hidden sm:block" />
                   </CardContent>
                 </Card>
               </a>
@@ -107,16 +107,16 @@ const Contact = () => {
           </div>
 
           {/* Footer Card */}
-          <Card className="bg-primary contact-animate border-none shadow-glow transition-transform hover:scale-[1.01] duration-500">
-            <CardContent className="p-12 text-center text-primary-foreground">
-              <h3 className="text-3xl font-bold mb-4">Let's build something exceptional.</h3>
-              <p className="text-lg opacity-80 mb-8 max-w-xl mx-auto">
+          <Card className="bg-primary contact-animate border-none shadow-glow transition-transform hover:scale-[1.01] duration-500 mx-4">
+            <CardContent className="p-6 sm:p-12 text-center text-primary-foreground">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-4">Let's build something exceptional.</h3>
+              <p className="text-base sm:text-lg opacity-80 mb-8 max-w-xl mx-auto">
                 Have a project in mind or just want to say hi? My inbox is always open.
               </p>
               <Button
                 size="lg"
                 variant="secondary"
-                className="rounded-full px-10 h-14 font-black text-primary hover:scale-105 transition-all shadow-lg"
+                className="rounded-full px-6 sm:px-10 h-12 sm:h-14 font-black text-primary hover:scale-105 transition-all shadow-lg w-full sm:w-auto"
                 onClick={() => window.location.href = 'mailto:aroonavikram@gmail.com'}
               >
                 Send a Direct Message

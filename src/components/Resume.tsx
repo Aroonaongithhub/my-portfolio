@@ -195,7 +195,7 @@ const Resume = () => {
                 </Card>
 
                 {/* Education Quick Info */}
-                <Card className="glass-card professional-shadow">
+                <Card className="bg-primary-foreground/10 glass-card professional-shadow">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-semibold text-foreground mb-4">
                       Education
