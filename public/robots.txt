@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://my-portfolio-fykc.vercel.app/sitemap.xml
+Sitemap: https://aroona.vercel.app/sitemap.xml
