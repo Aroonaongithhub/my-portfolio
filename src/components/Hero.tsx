@@ -3,6 +3,15 @@ import { Button } from '@/components/ui/button';
 import { Download, Mail, Github, Linkedin, ChevronDown } from 'lucide-react';
 import { gsap } from 'gsap';
 
+const techIcons = [
+  { name: 'React', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg' },
+  { name: 'Next.js', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg', invertInDark: true },
+  { name: 'TypeScript', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg' },
+  { name: 'Tailwind CSS', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg' },
+  { name: 'Node.js', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg' },
+  { name: 'PostgreSQL', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg' },
+];
+
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -10,7 +19,7 @@ const Hero = () => {
   const textRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const socialRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -21,9 +30,34 @@ const Hero = () => {
       .fromTo(textRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, "-=0.6")
       .fromTo(ctaRef.current?.children || [], { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.4")
       .fromTo(socialRef.current?.children || [], { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.3")
-      .fromTo(imageRef.current, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: 'elastic.out(1, 0.75)' }, "-=1");
+      .fromTo(imageContainerRef.current, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: 'elastic.out(1, 0.75)' }, "-=1");
 
   }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imageContainerRef.current) return;
+    const { left, top, width, height } = imageContainerRef.current.getBoundingClientRect();
+    const x = (e.clientX - left - width / 2) / 15;
+    const y = -(e.clientY - top - height / 2) / 15;
+
+    gsap.to(imageContainerRef.current, {
+      rotationY: x,
+      rotationX: y,
+      transformPerspective: 1000,
+      ease: "power2.out",
+      duration: 0.4
+    });
+  };
+
+  const handleMouseLeave = () => {
+    if (!imageContainerRef.current) return;
+    gsap.to(imageContainerRef.current, {
+      rotationY: 0,
+      rotationX: 0,
+      ease: "power3.out",
+      duration: 1
+    });
+  };
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({
@@ -43,8 +77,8 @@ const Hero = () => {
       </div>
 
       {/* Grid Pattern */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+      {/* <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" /> */}
 
       <div className="container mx-auto px-6 z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
@@ -126,17 +160,28 @@ const Hero = () => {
           </div>
 
           {/* Profile Image */}
-          <div ref={imageRef} className="flex-shrink-0 relative">
-            <div className="relative w-80 h-80 lg:w-[450px] lg:h-[450px]">
-              {/* Outer Glow Ring */}
-              <div className="absolute inset-0 rounded-full border border-primary/20 animate-[spin_10s_linear_infinite]" />
-              <div className="absolute inset-[-20px] rounded-full border border-accent/10 animate-[spin_15s_linear_infinite_reverse]" />
+          <div className="flex-shrink-0 relative" style={{ perspective: '1000px' }}>
+            <div
+              ref={imageContainerRef}
+              className="relative w-80 h-80 lg:w-[450px] lg:h-[450px]"
+              style={{ transformStyle: 'preserve-3d' }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              {/* Orbiting Tech Icons Ring */}
 
-              <div className="w-full h-full rounded-full overflow-hidden border-4 border-background shadow-premium relative z-10">
+
+
+              {/* The Actual Image - rendered strictly AFTER the ring to guarantee it stays in front */}
+              <div
+                className="w-full h-full rounded-full overflow-hidden border-4 border-background shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative z-10 transition-transform duration-300"
+              >
+                {/* 3D Lighting Reflection layer */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none mix-blend-overlay" />
                 <img
-                  src={'/profile-avatar.jpeg'}
+                  src={'/profile.png'}
                   alt="Aroona Vikram"
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                  className="w-full h-full object-cover"
                 />
               </div>
 

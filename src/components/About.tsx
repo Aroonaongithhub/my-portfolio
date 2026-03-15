@@ -144,8 +144,8 @@ const About = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="w-full md:w-64 h-64 rounded-3xl overflow-hidden shadow-premium group-hover:scale-105 transition-transform duration-500">
-                    <img src="/profile-avatar.jpeg" alt="Aroona" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  <div className="w-full md:w-64 h-70 rounded-3xl overflow-hidden shadow-premium group-hover:scale-105 transition-transform duration-500">
+                    <img src="/fullgirl.png" alt="Aroona" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                   </div>
                 </div>
               </CardContent>
