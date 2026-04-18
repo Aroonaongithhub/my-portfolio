@@ -186,7 +186,7 @@ const Projects = () => {
             size="lg"
             variant="ghost"
             className="text-muted-foreground hover:text-primary font-bold group"
-            onClick={() => window.open('https://github.com/Aroonaongithhub', '_blank')}
+            onClick={() => window.open('https://github.com/aroona-vikram', '_blank')}
           >
             Explore more on GitHub
             <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

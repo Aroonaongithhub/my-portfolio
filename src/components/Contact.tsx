@@ -47,8 +47,8 @@ const Contact = () => {
     {
       icon: <Github className="h-6 w-6" />,
       label: "GitHub",
-      value: "Aroonaongithhub",
-      href: "https://github.com/Aroonaongithhub",
+      value: "aroona-vikram",
+      href: "https://github.com/aroona-vikram",
       description: "Explore my open-source contributions and logic."
     }
   ];

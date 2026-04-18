@@ -143,7 +143,7 @@ const Hero = () => {
             {/* Social Links */}
             <div ref={socialRef} className="flex gap-6 justify-center lg:justify-start">
               {[
-                { icon: Github, href: 'https://github.com/Aroonaongithhub', color: 'hover:text-primary' },
+                { icon: Github, href: 'https://github.com/aroona-vikram', color: 'hover:text-primary' },
                 { icon: Linkedin, href: 'https://linkedin.com/in/aroona-vikram', color: 'hover:text-primary' },
               ].map((social, i) => (
                 <a
